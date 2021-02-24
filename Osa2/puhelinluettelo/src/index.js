@@ -40,7 +40,7 @@ const App = () => {
 
   const Notification = ({ message })=>{
     const notificationStyle ={
-      color:'green',
+      color:'red',
       fontStyle:'italic',
       fontSize:20,
       borderStyle:'solid',
@@ -62,7 +62,7 @@ const App = () => {
   }
 
   const handleNameChange =(event)=>{
-    console.log(event.target.value)
+    //console.log(event.target.value)
     setNewName(event.target.value)
   }
 
@@ -82,16 +82,9 @@ const App = () => {
       
       if (window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)) {
         const index= nimet.indexOf(newName)
-        console.log(index)
+        //console.log(index)
         const id= persons[index].id
-        console.log("Id on" + id)
-
-        setNotificationMessage(
-          `${newName} is now updated`
-        )
-        setTimeout(()=>{
-          setNotificationMessage(null)
-        },5000)
+        //console.log("Id on" + id)
 
         personService
           .update(id, nameObject)
@@ -100,9 +93,26 @@ const App = () => {
             setPersons(persons.concat(returnedPerson))
             setNewName('')
             setNewNumber('')
-          }
-        )
+            setNotificationMessage(
+              `${newName} is now updated`
+              )
+            setTimeout(()=>{
+              setNotificationMessage(null)
+            },5000)
+          })
+          .catch(error=>{
+              setNotificationMessage(error.response.data.error)
+              setTimeout(()=>{
+                setNotificationMessage(null)
+              },5000)
+      
+            
+          })
+            
       }
+          
+
+        
     }
     
     else if (numerot.includes(newNumber)){
@@ -111,12 +121,6 @@ const App = () => {
 
     else {
 
-      setNotificationMessage(
-        `${newName} is now added to phonebook`
-      )
-      setTimeout(()=>{
-        setNotificationMessage(null)
-      },5000)
 
       personService
         .create(nameObject)
@@ -125,6 +129,22 @@ const App = () => {
           setNewName('')
           setNewNumber('')
     })
+        .catch(error=>{
+          console.log(error.response.data.error)
+        setNotificationMessage(error.response.data.error)
+        setTimeout(()=>{
+          setNotificationMessage(null)
+        },5000)
+
+    
+  })
+      setNotificationMessage(
+      `${newName} is now added`
+      )
+      setTimeout(()=>{
+      setNotificationMessage(null)
+      },5000)
+
     }
 
   }
@@ -196,7 +216,7 @@ const Persons=({namesToShow,deletePerson})=>{
 
 
 const Person=({person, deletePerson})=>{
-  console.log("person komponentissa tulostuuko id: "+person.id +" ja nimi: " + person.name)
+  //console.log("person komponentissa tulostuuko id: "+person.id +" ja nimi: " + person.name)
   
   return(
     <li>
