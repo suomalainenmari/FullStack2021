@@ -1,0 +1,9 @@
+post http://localhost:3003/api/blogs
+Content-Type: application/json
+Authorization:Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1hcmRpaXMiLCJpZCI6IjYwM2NlOWE0MGM5ZTkyNzIwZmMyZjEzMiIsImlhdCI6MTYxNDYwNjY0MH0.wjVzOeDh5r_idGYmPMh7KWddxu7kDiLNdoSAXatqGUo
+
+{
+  "title": "blogin otsikko",
+  "author": "elli laine",
+  "url": "http://ellsinblogi.net"
+}
