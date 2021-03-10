@@ -1,14 +1,15 @@
 const config = require('./utils/config')
 const express = require('express')
 require('express-async-errors')
-const app = express()
 const cors = require('cors')
-const loginRouter = require('./controllers/login')
-const usersRouter = require('./controllers/users')
-const blogsRouter = require('./controllers/blogs')
+const logger = require('./utils/logger')
 const middleware = require('./utils/middleware')
-const logger= require('./utils/logger')
-const mongoose= require('mongoose')
+const blogsRouter = require('./controllers/blogs')
+const usersRouter = require('./controllers/users')
+const loginRouter = require('./controllers/login')
+const mongoose = require('mongoose')
+
+const app = express()
 
 logger.info('connecting to', config.MONGODB_URI)
 
@@ -28,6 +29,14 @@ app.use(middleware.tokenExtractor)
 app.use('/api/login', loginRouter)
 app.use('/api/users', usersRouter)
 app.use('/api/blogs', blogsRouter)
+
 app.use(middleware.errorHandler)
+
+if (process.env.NODE_ENV === 'test') {
+  const testingRouter = require('./controllers/testing')
+  app.use('/api/testing', testingRouter)
+}
+
+
 
 module.exports=app
